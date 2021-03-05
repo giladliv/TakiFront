@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
 
+
 namespace TakiFront
 {
     public partial class GameTable : Form
@@ -22,6 +23,7 @@ namespace TakiFront
         private List<Control>[] _controls;
         private List<Control>[] _changableCnt;
         private const int LEN_CONT = 4;
+        private const string FILE_CON = "try.txt";
 
         public GameTable(List<string> names, List<string> cards)
         {
@@ -109,7 +111,7 @@ namespace TakiFront
             int i = 0;
             while (true)
             {
-                _strTry = File.ReadAllText("try.txt", Encoding.GetEncoding("windows-1255"));
+                _strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
                 if (_strTry.Length > 0)
                 {
                     backgroundWorker1.ReportProgress(i, _strTry);
@@ -135,6 +137,11 @@ namespace TakiFront
             {
                 backgroundWorker1.CancelAsync();
             }
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
