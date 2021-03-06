@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 
 namespace TakiFront
@@ -61,7 +62,7 @@ namespace TakiFront
             for (int i = 0; i < _changableCnt.Length; i++)
             {
                 setVisibleByIndex(_changableCnt, i, true);
-                currName = (i > 0) ? _names[i-1] : "you";
+                currName = (i > 0) ? _names[i - 1] : "you";
                 _changableCnt[i][0].Text = currName;
             }
         }
@@ -70,11 +71,11 @@ namespace TakiFront
         {
             if (num == 1)
             {
-                _changableCnt = new List<Control>[2] { _controls[0] , _controls[2]};
+                _changableCnt = new List<Control>[2] { _controls[0], _controls[2] };
             }
             if (num == 2)
             {
-                _changableCnt = new List<Control>[3] { _controls[0], _controls[1], _controls[3]};
+                _changableCnt = new List<Control>[3] { _controls[0], _controls[1], _controls[3] };
             }
             if (num == 3)
             {
@@ -92,7 +93,7 @@ namespace TakiFront
                 controls[index][i].Refresh();
             }
         }
-        
+
         public static string SerializeJson(Dictionary<string, object> dict)
         {
             return JsonConvert.SerializeObject(dict);
@@ -100,8 +101,14 @@ namespace TakiFront
 
         public static Dictionary<string, object> DeserializeJson(string str)
         {
-            return JsonConvert.DeserializeObject< Dictionary<string, object>>(str);
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(str);
         }
+
+        //public static T JObjectParse<T>(object var)
+        //{
+        //    T temp;
+        //    return temp;
+        //}
 
         private string _strTry;
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -122,7 +129,7 @@ namespace TakiFront
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync();
+            //backgroundWorker1.RunWorkerAsync();
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -143,5 +150,35 @@ namespace TakiFront
         {
 
         }
+
+        private void tryJsonPress()
+        {
+            TryOnIt onIt = new TryOnIt();
+            onIt.yo = 8;
+            onIt.mama = new List<string>() { "dsds" };
+
+            File.WriteAllText("yes.txt", JsonConvert.SerializeObject(onIt));
+
+            Dictionary<string, object> me = new Dictionary<string, object>();
+            me["mama"] = new List<string>() { "aleph", "bet", "gimel" };
+            me["yo"] = 3;
+            File.WriteAllText("me.txt", SerializeJson(me));
+
+            TryOnIt nora = JsonConvert.DeserializeObject<TryOnIt>(File.ReadAllText("yes.txt"));
+            nora = JsonConvert.DeserializeObject<TryOnIt>(File.ReadAllText("me.txt"));
+
+            Dictionary<string, object> lama = DeserializeJson(File.ReadAllText("me.txt"));
+            JArray a = JArray.FromObject(lama["mama"]);
+            List<string> yo = a.ToObject<List<string>>();
+            int ok = Convert.ToInt32(lama["yo"]);
+
+            int i = 1;
+        }
+    }
+
+    public class TryOnIt
+    {
+        public int yo { get; set; }
+        public List<string> mama { get; set; }
     }
 }
