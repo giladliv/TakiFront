@@ -140,8 +140,6 @@ namespace TakiFront
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox1.Text);
-            File.WriteAllBytes("lama.txt", playCard.getAsRequest());
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -153,6 +151,7 @@ namespace TakiFront
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
         {
+
             if (backgroundWorker1.IsBusy)
             {
                 backgroundWorker1.CancelAsync();
@@ -161,6 +160,8 @@ namespace TakiFront
 
         private void Button2_Click(object sender, EventArgs e)
         {
+            //JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox1.Text);
+            //File.WriteAllBytes("lama.txt", playCard.getAsRequest());
             File.WriteAllText(FILE_CON, richTextBox2.Text);
         }
 

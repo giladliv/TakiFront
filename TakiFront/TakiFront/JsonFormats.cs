@@ -23,6 +23,7 @@ namespace TakiFront
         public const byte SRV_DRAW_CARDS = 0x43;
         public const byte SRV_LAST_IN_HAND_FLAG = 0x44;
         public const byte CLN_SEND_PRESSED_LAST = 0x45;
+        public const int MAX_LEN = 2048; 
     }
 
 

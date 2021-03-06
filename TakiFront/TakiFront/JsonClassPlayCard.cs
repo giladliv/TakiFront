@@ -37,6 +37,7 @@ namespace TakiFront
             byteListSend.AddRange(jsonInBytes);
 
             return byteListSend.ToArray();
+
         }
     }
 }
