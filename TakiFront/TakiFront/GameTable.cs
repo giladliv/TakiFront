@@ -140,6 +140,8 @@ namespace TakiFront
 
         private void Button1_Click(object sender, EventArgs e)
         {
+            JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox1.Text);
+            File.WriteAllBytes("lama.txt", playCard.getAsRequest());
             backgroundWorker1.RunWorkerAsync();
         }
 
