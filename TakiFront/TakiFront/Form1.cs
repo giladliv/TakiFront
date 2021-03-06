@@ -15,6 +15,7 @@ namespace TakiFront
         public Form1()
         {
             InitializeComponent();
+            textBox1.Text = "gilad";
         }
 
         private void Button1_Click(object sender, EventArgs e)

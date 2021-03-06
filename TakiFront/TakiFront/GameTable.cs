@@ -5,11 +5,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 
@@ -110,7 +110,6 @@ namespace TakiFront
         //    return temp;
         //}
 
-        private string _strTry;
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             //backgroundWorker1.ReportProgress(-1);
@@ -118,24 +117,30 @@ namespace TakiFront
             int i = 0;
             while (true)
             {
-                _strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
-                if (_strTry.Length > 0)
-                {
-                    backgroundWorker1.ReportProgress(i, _strTry);
-                }
+                //_strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
+                //if (_strTry.Length > 0)
+                //{
+                //    backgroundWorker1.ReportProgress(i, _strTry);
+                //}
 
-                if (File.Exists(FILE_CON))
+                try
                 {
+                    string strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
+                    backgroundWorker1.ReportProgress(i, strTry);
                     File.Delete(FILE_CON);
                 }
+                catch (IOException)
+                {
 
-                Thread.Sleep(1);
+                }
+
+                //Thread.Sleep(1);
             }
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            //backgroundWorker1.RunWorkerAsync();
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -154,7 +159,7 @@ namespace TakiFront
 
         private void Button2_Click(object sender, EventArgs e)
         {
-
+            File.WriteAllText(FILE_CON, richTextBox2.Text);
         }
 
         private void tryJsonPress()
@@ -178,7 +183,12 @@ namespace TakiFront
             List<string> yo = a.ToObject<List<string>>();
             int ok = Convert.ToInt32(lama["yo"]);
 
-            int i = 1;
+            //byte
+            int i = 1099;
+            byte[] buffer = BitConverter.GetBytes(i);
+            int j = 1;
+
+
         }
     }
 

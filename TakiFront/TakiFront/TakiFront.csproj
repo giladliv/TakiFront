@@ -61,6 +61,12 @@
     <Compile Include="GameTable.Designer.cs">
       <DependentUpon>GameTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="JsonClassAnsLastInHendCard.cs" />
+    <Compile Include="JsonClassLeagelCardResponse.cs" />
+    <Compile Include="JsonClassPlayCard.cs" />
+    <Compile Include="JsonClassServAskLastFlag.cs" />
+    <Compile Include="JsonClassSrvDrawCards.cs" />
+    <Compile Include="JsonClassStartGame.cs" />
     <Compile Include="JsonFormats.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
