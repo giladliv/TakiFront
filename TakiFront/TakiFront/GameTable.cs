@@ -123,6 +123,12 @@ namespace TakiFront
                 {
                     backgroundWorker1.ReportProgress(i, _strTry);
                 }
+
+                if (File.Exists(FILE_CON))
+                {
+                    File.Delete(FILE_CON);
+                }
+
                 Thread.Sleep(1);
             }
         }
