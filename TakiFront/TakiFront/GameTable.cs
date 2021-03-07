@@ -104,52 +104,29 @@ namespace TakiFront
             return JsonConvert.DeserializeObject<Dictionary<string, object>>(str);
         }
 
-        //public static T JObjectParse<T>(object var)
-        //{
-        //    T temp;
-        //    return temp;
-        //}
-
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            //backgroundWorker1.ReportProgress(-1);
-            //for (int i = 0; i < 100; i++)
             FileStream file = null;
             while (true)
             {
-                //_strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
-                //if (_strTry.Length > 0)
-                //{
-                //    backgroundWorker1.ReportProgress(i, _strTry);
-                //}
 
                 try
                 {
-                    string strTry = "";
-                    file = File.OpenRead(FILE_CON);
-                    byte[] reader = new byte[5];
-                    int count = file.Read(reader, 0, 5);
-                    MessageBuffer mbf = new MessageBuffer(reader);
-                    //strTry = mbf.StrMess;
-
-                    int len = mbf.Length;
-                    byte[] temp = new byte[len];
-                    int i = 0;
-                    int read = 1;
-                    while (len > 0 && read > 0)
+                    //string strTry = "";
+                    if (File.Exists(FILE_CON))
                     {
-                        read = file.Read(temp, i, len);
-                        len -= read;
-                        i += read;
+                        file = File.OpenRead(FILE_CON);
+                        byte[] reader = new byte[5];
+                        int count = file.Read(reader, 0, 5);
+                        MessageBuffer mbf = new MessageBuffer(reader, file);
+                        //strTry = mbf.StrMess;
+                        file.Close();
+                        backgroundWorker1.ReportProgress(0, mbf.StrMess);
                     }
-                    file.Close();
-                    //strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
-                    strTry = System.Text.Encoding.Default.GetString(temp);
-                    backgroundWorker1.ReportProgress(i, strTry);
                     
                     File.Delete(FILE_CON);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     if (file != null)
                     {
@@ -157,8 +134,6 @@ namespace TakiFront
                     }
                     
                 }
-                //File.Delete(FILE_CON);
-                //Thread.Sleep(1);
             }
         }
 
@@ -170,7 +145,9 @@ namespace TakiFront
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //e.UserState.
-            richTextBox1.Text = (string)e.UserState;
+            string json = (string)e.UserState;
+            JsonClassLeagelCardResponse m = new JsonClassLeagelCardResponse(json);
+            richTextBox1.Text = m.card;
         }
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
@@ -184,9 +161,29 @@ namespace TakiFront
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox2.Text);
+            JsonClassLeagelCardResponse playCard = new JsonClassLeagelCardResponse(richTextBox2.Text, 1, 1);
+            byte[] n = playCard.getAsRequest();
             //File.WriteAllBytes("lama.txt", playCard.getAsRequest());
             File.WriteAllBytes(FILE_CON, playCard.getAsRequest());
+        }
+
+        private void messageHandle(MessageBuffer buffer)
+        {
+            switch (buffer.Code)
+            {
+                case Global.SRV_PLAYED_CARD_WELL:
+                    handleCardPlayedAns(buffer.StrMess);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void handleCardPlayedAns(string json)
+        {
+            JsonClassLeagelCardResponse cardResponse = new JsonClassLeagelCardResponse(json);
+
         }
 
         private void tryJsonPress()

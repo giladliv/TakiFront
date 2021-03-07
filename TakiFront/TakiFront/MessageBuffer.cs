@@ -22,6 +22,18 @@ namespace TakiFront
             StrMess = mess;
         }
 
+        public static byte[] ctorOnlyLiner(byte code, string mess)
+        {
+            List<byte> byteListSend = new List<byte>() { code };
+            byte[] jsonInBytes = Encoding.ASCII.GetBytes(mess);
+            byte[] buffer = BitConverter.GetBytes(jsonInBytes.Length);
+
+            byteListSend.AddRange(buffer);
+            byteListSend.AddRange(jsonInBytes);
+
+            return byteListSend.ToArray();
+        }
+
 
         public MessageBuffer(byte[] data)
         {

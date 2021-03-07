@@ -29,9 +29,23 @@ namespace TakiFront
 
     public class JsonClass
     {
+        protected virtual byte _id { get; }
+
         public virtual string ToJsonFormat()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        public byte[] getAsRequest()
+        {
+            List<byte> byteListSend = new List<byte>() { _id };
+            byte[] jsonInBytes = Encoding.ASCII.GetBytes(ToJsonFormat());
+            byte[] buffer = BitConverter.GetBytes(jsonInBytes.Length);
+
+            byteListSend.AddRange(buffer);
+            byteListSend.AddRange(jsonInBytes);
+
+            return byteListSend.ToArray();
         }
     }
 

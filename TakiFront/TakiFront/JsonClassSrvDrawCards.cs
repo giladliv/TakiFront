@@ -10,6 +10,8 @@ namespace TakiFront
 {
     class JsonClassSrvDrawCards : JsonClass
     {
+        protected override byte _id { get { return Global.SRV_DRAW_CARDS; } }
+
         public List<string> cardsDeck { get; set; }
         public int direction { get; set; }
         public int index { get; set; }

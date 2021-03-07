@@ -11,6 +11,7 @@ namespace TakiFront
     public class JsonClassStartGame : JsonClass
     {
         // server - 0x40
+        protected override byte _id { get { return Global.SRV_START_GAME; } }
 
         public List<string> player_names { get; set; }
         public List<string> turns { get; set; }

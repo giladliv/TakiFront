@@ -10,6 +10,8 @@ namespace TakiFront
 {
     class JsonClassServAskLastFlag : JsonClass
     {
+        protected override byte _id { get { return Global.SRV_LAST_IN_HAND_FLAG; } }
+
         public bool called { get; set; }
 
         public JsonClassServAskLastFlag(string json)
