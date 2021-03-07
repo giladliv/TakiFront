@@ -19,20 +19,18 @@ namespace TakiFront
     {
         private int _numOfPlayers;
         private List<string> _cards;
-        private List<string> _names;
         private int _direction;
         private List<Control>[] _controls;
         private List<Control>[] _changableCnt;
         private const int LEN_CONT = 4;
         private const string FILE_CON = "try.txt";
         private int playerIndex;
+        private PlayersDataList dataStart;
 
-        public GameTable(List<string> names, List<string> cards)
+        public GameTable(JsonClassStartGame startGame)
         {
             InitializeComponent();
-            _numOfPlayers = names.Count + 1;
-            _cards = cards;
-            _names = names;
+            dataStart = new PlayersDataList(startGame);
             _direction = 1;
             _controls = new List<Control>[LEN_CONT] { new List<Control>() { label1 },
                                                new List<Control>() { label2 },
@@ -45,7 +43,7 @@ namespace TakiFront
                                                new List<Control>() { label4 } };
             setPlayers();
             //File.WriteAllText("try.txt", "");
-            backgroundWorker1.RunWorkerAsync();
+
         }
 
 
@@ -57,21 +55,20 @@ namespace TakiFront
          */
         private void setPlayers()
         {
-            setControlsByNum(_names.Count);
             for (int i = 0; i < _controls.Length; i++)
             {
                 setVisibleByIndex(_controls, i, false);
             }
             string currName = "";
+            setControlsByData();
             for (int i = 0; i < _changableCnt.Length; i++)
             {
                 setVisibleByIndex(_changableCnt, i, true);
-                currName = (i > 0) ? _names[i - 1] : "you";
+                currName = (i != dataStart.thisPlyIndex) ? dataStart.names[i] : "you";
                 _changableCnt[i][0].Text = currName;
             }
         }
 
-        //void set
 
         private void setControlsByNum(int num)
         {
@@ -87,6 +84,19 @@ namespace TakiFront
             {
                 _changableCnt = new List<Control>[4] { _controls[0], _controls[1], _controls[2], _controls[3] };
             }
+        }
+
+        private void setControlsByData()
+        {
+            setControlsByNum(dataStart.names.Count - 1);
+            List<Control>[] tmpCntrl = new List<Control>[_changableCnt.Length];
+            int indOffset = 0;
+            for (int i = 0; i < tmpCntrl.Length; i++)
+            {
+                indOffset = (i + dataStart.thisPlyIndex) % tmpCntrl.Length;
+                tmpCntrl[indOffset] = _changableCnt[i];
+            }
+            _changableCnt = tmpCntrl;
         }
 
         private void setVisibleByIndex(List<Control>[] controls, int index, bool isVisible)

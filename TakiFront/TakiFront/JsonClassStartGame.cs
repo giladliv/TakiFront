@@ -14,13 +14,28 @@ namespace TakiFront
         protected override byte _id { get { return Global.SRV_START_GAME; } }
 
         public List<string> player_names { get; set; }
-        public List<string> turns { get; set; }
+        public List<int> turns { get; set; }
         public List<string> cardsDeck { get; set; }
         public string centralCard { get; set; }
 
+        public JsonClassStartGame()
+        {
+
+        }
+        public JsonClassStartGame(List<string> playerNames, List<int> trn, List<string> crdDeck, string cntrCard)
+        {
+            player_names = playerNames;
+            turns = trn;
+            cardsDeck = crdDeck;
+            centralCard = cntrCard;
+        }
         public JsonClassStartGame(string json)
         {
             copyOther(JsonConvert.DeserializeObject<JsonClassStartGame>(json));
+        }
+        public JsonClassStartGame(JsonClassStartGame other) : this(other.player_names, other.turns, other.cardsDeck, other.centralCard)
+        {
+            
         }
 
         public void copyOther(JsonClassStartGame other)
@@ -34,8 +49,20 @@ namespace TakiFront
         public int getIndexThisPlayer()
         {
             int len = turns.Count + 1;
-            List<string> trnList = new List<string>(4);
+            int[] trnList = new int[len];
 
+            for (int i = 0; i < len; i++)
+            {
+                if (i < len - 1 && turns[i] < len)
+                {
+                    trnList[turns[i]] = 1;
+                }
+            }
+
+            if (trnList.Contains(0))
+            {
+                return Array.IndexOf(trnList, 0);
+            }
 
             return -1;
         }
