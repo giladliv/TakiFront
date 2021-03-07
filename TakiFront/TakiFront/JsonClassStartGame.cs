@@ -31,6 +31,15 @@ namespace TakiFront
             this.centralCard = other.centralCard;
         }
 
+        public int getIndexThisPlayer()
+        {
+            int len = turns.Count + 1;
+            List<string> trnList = new List<string>(4);
+
+
+            return -1;
+        }
+
         public override string ToJsonFormat()
         {
             return JsonConvert.SerializeObject(this);

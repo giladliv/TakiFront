@@ -25,6 +25,7 @@ namespace TakiFront
         private List<Control>[] _changableCnt;
         private const int LEN_CONT = 4;
         private const string FILE_CON = "try.txt";
+        private int playerIndex;
 
         public GameTable(List<string> names, List<string> cards)
         {
@@ -44,7 +45,10 @@ namespace TakiFront
                                                new List<Control>() { label4 } };
             setPlayers();
             //File.WriteAllText("try.txt", "");
+            backgroundWorker1.RunWorkerAsync();
         }
+
+
 
         /*
          * this is function that sets the table and the players
@@ -66,6 +70,8 @@ namespace TakiFront
                 _changableCnt[i][0].Text = currName;
             }
         }
+
+        //void set
 
         private void setControlsByNum(int num)
         {
@@ -139,7 +145,8 @@ namespace TakiFront
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync();
+            
+            List<string> trnList = new List<string>(4);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)

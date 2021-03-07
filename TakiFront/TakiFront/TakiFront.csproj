@@ -69,6 +69,7 @@
     <Compile Include="JsonClassStartGame.cs" />
     <Compile Include="JsonFormats.cs" />
     <Compile Include="MessageBuffer.cs" />
+    <Compile Include="PlayersDataList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
