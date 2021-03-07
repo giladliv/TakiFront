@@ -114,7 +114,7 @@ namespace TakiFront
         {
             //backgroundWorker1.ReportProgress(-1);
             //for (int i = 0; i < 100; i++)
-            int i = 0;
+            FileStream file = null;
             while (true)
             {
                 //_strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
@@ -125,15 +125,39 @@ namespace TakiFront
 
                 try
                 {
-                    string strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
+                    string strTry = "";
+                    file = File.OpenRead(FILE_CON);
+                    byte[] reader = new byte[5];
+                    int count = file.Read(reader, 0, 5);
+                    MessageBuffer mbf = new MessageBuffer(reader);
+                    //strTry = mbf.StrMess;
+
+                    int len = mbf.Length;
+                    byte[] temp = new byte[len];
+                    int i = 0;
+                    int read = 1;
+                    while (len > 0 && read > 0)
+                    {
+                        read = file.Read(temp, i, len);
+                        len -= read;
+                        i += read;
+                    }
+                    file.Close();
+                    //strTry = File.ReadAllText(FILE_CON, Encoding.GetEncoding("windows-1255"));
+                    strTry = System.Text.Encoding.Default.GetString(temp);
                     backgroundWorker1.ReportProgress(i, strTry);
+                    
                     File.Delete(FILE_CON);
                 }
-                catch (IOException)
+                catch (Exception ex)
                 {
-
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                    
                 }
-
+                //File.Delete(FILE_CON);
                 //Thread.Sleep(1);
             }
         }
@@ -160,9 +184,9 @@ namespace TakiFront
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            //JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox1.Text);
+            JsonClassPlayCard playCard = new JsonClassPlayCard(richTextBox2.Text);
             //File.WriteAllBytes("lama.txt", playCard.getAsRequest());
-            File.WriteAllText(FILE_CON, richTextBox2.Text);
+            File.WriteAllBytes(FILE_CON, playCard.getAsRequest());
         }
 
         private void tryJsonPress()
