@@ -197,10 +197,32 @@ namespace TakiFront
             }
         }
 
+        /**
+         * this is the function that handles the code of 0x42
+         * 
+         * it showes the card and then changes the enviroment
+         */
         private void handleCardPlayedAns(string json)
         {
             JsonClassLeagelCardResponse cardResponse = new JsonClassLeagelCardResponse(json);
+            richTextBox1.Text = cardResponse.card;
+            setVisualCurrentPlayer(cardResponse.index, cardResponse.direction);
+        }
 
+        /*
+         *check if the index and direction have changed, if so, it will be showed 
+         * 
+         */
+        private void setVisualCurrentPlayer(int index, int direction)
+        {
+            if (index != dataStart.currGameIndex)
+            {
+                dataStart.currGameIndex = index;
+            }
+            if (direction != _direction)
+            {
+                _direction = direction;
+            }
         }
 
         private void tryJsonPress()
