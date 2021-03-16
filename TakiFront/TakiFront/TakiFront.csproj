@@ -68,10 +68,12 @@
     <Compile Include="JsonClassSrvDrawCards.cs" />
     <Compile Include="JsonClassStartGame.cs" />
     <Compile Include="JsonFormats.cs" />
+    <Compile Include="LoginResponse.cs" />
     <Compile Include="MessageBuffer.cs" />
     <Compile Include="PlayersDataList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignupResponse.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

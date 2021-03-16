@@ -17,6 +17,11 @@ namespace TakiFront
 {
     public class Global
     {
+        public const byte LOGIN_REQUEST = 0x10;
+        public const byte SIGN_UP_REQUEST = 0x11;
+        public const byte LOGIN_RESPONSE = 0x12;
+        public const byte SIGN_UP_RESPONSE = 0x13;
+
         public const byte SRV_START_GAME = 0x40;
         public const byte CLN_PLAY_CARD = 0x41;
         public const byte SRV_PLAYED_CARD_WELL = 0x42;
