@@ -13,6 +13,11 @@ namespace TakiFront
         protected override byte _id { get { return Global.CLN_SEND_PRESSED_LAST; } }
         public bool called { get; set; }
 
+        public JsonClassAnsLastInHendCard()
+        {
+            called = true;
+        }
+
         public JsonClassAnsLastInHendCard(string json)
         {
             copyOther(JsonConvert.DeserializeObject<JsonClassAnsLastInHendCard>(json));

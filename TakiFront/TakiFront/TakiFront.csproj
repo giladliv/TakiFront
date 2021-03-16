@@ -80,18 +80,19 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -100,6 +101,144 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\7y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\8y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\9y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\t-.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TT.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

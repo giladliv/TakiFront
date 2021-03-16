@@ -11,7 +11,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-
+using System.Resources;
+using System.Net.Sockets;
 
 namespace TakiFront
 {
@@ -26,22 +27,27 @@ namespace TakiFront
         private const string FILE_CON = "try.txt";
         private int playerIndex;
         private PlayersDataList dataStart;
+        private NetworkStream _stream;
 
-        public GameTable(JsonClassStartGame startGame)
+        public GameTable(JsonClassStartGame startGame, NetworkStream stream)
         {
             InitializeComponent();
+            _stream = stream;
             dataStart = new PlayersDataList(startGame);
             _direction = 1;
-            _controls = new List<Control>[LEN_CONT] { new List<Control>() { label1 },
-                                               new List<Control>() { label2 },
-                                               new List<Control>() { label3 },
-                                               new List<Control>() { label4 } };
+            _cards = startGame.cardsDeck;
+            refreshDeck();
+            _controls = new List<Control>[LEN_CONT] { new List<Control>() { label1, pictureBox1 },
+                                               new List<Control>() { label2, pictureBox2 },
+                                               new List<Control>() { label3, pictureBox3 },
+                                               new List<Control>() { label4, pictureBox4 } };
 
-            _changableCnt = new List<Control>[LEN_CONT] { new List<Control>() { label1 },
-                                               new List<Control>() { label2 },
-                                               new List<Control>() { label3 },
-                                               new List<Control>() { label4 } };
+            _changableCnt = new List<Control>[LEN_CONT] { new List<Control>() { label1, pictureBox1 },
+                                               new List<Control>() { label2, pictureBox2 },
+                                               new List<Control>() { label3, pictureBox3 },
+                                               new List<Control>() { label4, pictureBox4 } };
             setPlayers();
+            backgroundWorker1.RunWorkerAsync();
             //File.WriteAllText("try.txt", "");
 
         }
@@ -66,6 +72,8 @@ namespace TakiFront
                 setVisibleByIndex(_changableCnt, i, true);
                 currName = (i != dataStart.thisPlyIndex) ? dataStart.names[i] : "you";
                 _changableCnt[i][0].Text = currName;
+                _changableCnt[i][1].BackColor = ((i == 0) ? Global.CLR_CURR : Global.CLR_OTHER);
+                
             }
         }
 
@@ -122,49 +130,34 @@ namespace TakiFront
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            FileStream file = null;
             while (true)
             {
-
                 try
                 {
                     //string strTry = "";
-                    if (File.Exists(FILE_CON))
-                    {
-                        file = File.OpenRead(FILE_CON);
-                        byte[] reader = new byte[5];
-                        int count = file.Read(reader, 0, 5);
-                        MessageBuffer mbf = new MessageBuffer(reader, file);
-                        //strTry = mbf.StrMess;
-                        file.Close();
-                        backgroundWorker1.ReportProgress(0, mbf.StrMess);
-                    }
-                    
-                    File.Delete(FILE_CON);
+                    MessageBuffer mbf = MessageBuffer.reciveData(_stream);
+                    backgroundWorker1.ReportProgress(0, mbf);
                 }
                 catch (Exception)
                 {
-                    if (file != null)
-                    {
-                        file.Close();
-                    }
                     
                 }
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            
-            List<string> trnList = new List<string>(4);
-        }
+        
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //e.UserState.
-            string json = (string)e.UserState;
-            JsonClassLeagelCardResponse m = new JsonClassLeagelCardResponse(json);
-            richTextBox1.Text = m.card;
+            MessageBuffer mbf = (MessageBuffer)e.UserState;
+            messageHandle(mbf);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            button4.PerformClick();
+            button1.Visible = false;
         }
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
@@ -178,10 +171,13 @@ namespace TakiFront
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            JsonClassLeagelCardResponse playCard = new JsonClassLeagelCardResponse(richTextBox2.Text, 1, 1);
+            int nxtInd = (dataStart.currGameIndex + 1) % _changableCnt.Length;
+            JsonClassSrvDrawCards playCard = new JsonClassSrvDrawCards(new List<string>(){ "7y", "TT" }, 1, nxtInd);
             byte[] n = playCard.getAsRequest();
-            //File.WriteAllBytes("lama.txt", playCard.getAsRequest());
+            //File.WriteAllBytes("mamamia.txt", playCard.getAsRequest());
             File.WriteAllBytes(FILE_CON, playCard.getAsRequest());
+            MessageBuffer.sendData(playCard, _stream);
+
         }
 
         private void messageHandle(MessageBuffer buffer)
@@ -190,6 +186,18 @@ namespace TakiFront
             {
                 case Global.SRV_PLAYED_CARD_WELL:
                     handleCardPlayedAns(buffer.StrMess);
+                    break;
+
+                case Global.SRV_DRAW_CARDS:
+                    handleCardsRecived(buffer.StrMess);
+                    break;
+
+                case Global.SRV_LAST_IN_HAND_FLAG:
+                    handleLastInHandFlag(buffer.StrMess);
+                    break;
+
+                case Global.CLN_PLAY_CARD:
+                    //MessageBox.Show("boom", "oops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
                 default:
@@ -206,8 +214,46 @@ namespace TakiFront
         {
             JsonClassLeagelCardResponse cardResponse = new JsonClassLeagelCardResponse(json);
             richTextBox1.Text = cardResponse.card;
+            if(dataStart.currGameIndex == dataStart.thisPlyIndex)
+            {
+                //remove card option
+                removeCardFromDeck(cardResponse.card);
+                if (cardResponse.card[0] == 't' || cardResponse.card[0] == 'T' || cardResponse.card[0] == 't')
+                {
+                    button1.Visible = true;
+                }
+            }
             setVisualCurrentPlayer(cardResponse.index, cardResponse.direction);
         }
+
+
+        /*
+         * this is the function that handles the code of 0x43
+         * when recived a new cards in deck
+         */
+        private void handleCardsRecived(string json)
+        {
+            JsonClassSrvDrawCards drawCards = new JsonClassSrvDrawCards(json);
+            //richTextBox1.Text = cardResponse.card;
+            button3.Visible = false;
+            drawCards.addCardsToHend(ref _cards);
+            setVisualCurrentPlayer(drawCards.index, drawCards.direction);
+            refreshDeck();
+
+        }
+
+
+        /*
+         * this is the function that handles the code of 0x44
+         * when recived a new cards in deck
+         */
+        private void handleLastInHandFlag(string json)
+        {
+            JsonClassServAskLastFlag askLastFlag = new JsonClassServAskLastFlag(json);
+            
+            button3.Visible = true;
+        }
+
 
         /*
          *check if the index and direction have changed, if so, it will be showed 
@@ -217,7 +263,10 @@ namespace TakiFront
         {
             if (index != dataStart.currGameIndex)
             {
+                _changableCnt[dataStart.currGameIndex][1].BackColor = Global.CLR_OTHER;
                 dataStart.currGameIndex = index;
+                _changableCnt[index][1].BackColor = Global.CLR_CURR;
+
             }
             if (direction != _direction)
             {
@@ -225,39 +274,100 @@ namespace TakiFront
             }
         }
 
-        private void tryJsonPress()
+
+        private void refreshDeck()
         {
-            TryOnIt onIt = new TryOnIt();
-            onIt.yo = 8;
-            onIt.mama = new List<string>() { "dsds" };
+            textBox1.Text = String.Join(", ", _cards);
 
-            File.WriteAllText("yes.txt", JsonConvert.SerializeObject(onIt));
+            List<PictureBox> pictureBoxes = getCardPictures(_cards);
 
-            Dictionary<string, object> me = new Dictionary<string, object>();
-            me["mama"] = new List<string>() { "aleph", "bet", "gimel" };
-            me["yo"] = 3;
-            File.WriteAllText("me.txt", SerializeJson(me));
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.ColumnCount = pictureBoxes.Count;
 
-            TryOnIt nora = JsonConvert.DeserializeObject<TryOnIt>(File.ReadAllText("yes.txt"));
-            nora = JsonConvert.DeserializeObject<TryOnIt>(File.ReadAllText("me.txt"));
+            for (int i = 0; i < pictureBoxes.Count; i++)
+            {
+                tableLayoutPanel1.Controls.Add(pictureBoxes[i], i, 0);
+            }
+            TableLayoutColumnStyleCollection styles =tableLayoutPanel1.ColumnStyles;
 
-            Dictionary<string, object> lama = DeserializeJson(File.ReadAllText("me.txt"));
-            JArray a = JArray.FromObject(lama["mama"]);
-            List<string> yo = a.ToObject<List<string>>();
-            int ok = Convert.ToInt32(lama["yo"]);
+            foreach (ColumnStyle style in styles)
+            {
+                style.SizeType = SizeType.Absolute;
+                style.Width = 150;
+            }
+        }
 
-            //byte
-            int i = 1099;
-            byte[] buffer = BitConverter.GetBytes(i);
-            int j = 1;
+        private List<PictureBox> getCardPictures(List<string> cardList)
+        {
+            List<PictureBox> picRet = new List<PictureBox>();
 
+            foreach (string card in cardList)
+            {
+                PictureBox temp = new PictureBox();
+                ResourceManager rm = Properties.Resources.ResourceManager;
+
+                temp.Image = (Bitmap)rm.GetObject(card);
+                if (temp.Image != null)
+                {
+                    temp.Tag = card;
+                    temp.Height = 170;
+                    temp.Width = 170;
+                    temp.SizeMode = PictureBoxSizeMode.Zoom;
+                    temp.Click += CardClick;
+                    picRet.Add(temp);
+                }
+
+            }
+
+            return (picRet);
+        }
+
+        private void CardClick(object sender, EventArgs e)
+        {
+            if (dataStart.currGameIndex != dataStart.thisPlyIndex)
+            {
+                MessageBox.Show("not your turn", "oops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            PictureBox temp = (PictureBox)sender;
+            //MessageBox.Show("THIS IS GOOD " + temp.Tag, "This is nice..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            JsonClassPlayCard playCard = new JsonClassPlayCard("" + temp.Tag);
+            MessageBuffer.sendData(playCard, _stream);
 
         }
+
+        private void removeCardFromDeck(string card)
+        {
+            string cardRmv = card;
+            if (card.Length > 0 && card[0] == '=')
+            {
+                cardRmv = "==";
+            }
+            else if (card == "++")
+            {
+                cardRmv = "";
+            }
+
+            _cards.Remove(cardRmv);
+            //need to add about change color
+        }
+
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            //need to handel a writer to stream
+            JsonClassAnsLastInHendCard lastInHendCall = new JsonClassAnsLastInHendCard();
+            MessageBuffer.sendData(lastInHendCall, _stream);
+        }
+
+        private void drawEmpty(object sender, EventArgs e)
+        {
+            JsonClassPlayCard playCard = new JsonClassPlayCard("++");
+            MessageBuffer.sendData(playCard, _stream);
+        }
+
     }
 
-    public class TryOnIt
-    {
-        public int yo { get; set; }
-        public List<string> mama { get; set; }
-    }
+    
 }

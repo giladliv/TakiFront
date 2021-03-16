@@ -14,6 +14,10 @@ namespace TakiFront
 
         public bool called { get; set; }
 
+        public JsonClassServAskLastFlag()
+        {
+            called = true;
+        }
         public JsonClassServAskLastFlag(string json)
         {
             copyOther(JsonConvert.DeserializeObject<JsonClassServAskLastFlag>(json));

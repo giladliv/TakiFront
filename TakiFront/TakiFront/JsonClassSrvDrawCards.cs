@@ -16,6 +16,19 @@ namespace TakiFront
         public int direction { get; set; }
         public int index { get; set; }
 
+        public JsonClassSrvDrawCards()
+        {
+
+        }
+
+        public JsonClassSrvDrawCards(List<string> c, int d, int i)
+        {
+            cardsDeck = c;
+            direction = d;
+            index = i;
+        }
+    
+
         public JsonClassSrvDrawCards(string json)
         {
             copyOther(JsonConvert.DeserializeObject<JsonClassSrvDrawCards>(json));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.Sockets;
 
 namespace TakiFront
 {
@@ -13,6 +14,11 @@ namespace TakiFront
         public int Length { get; }
         public byte[] Message { get; }
         public string StrMess { get; }
+
+        public MessageBuffer()
+        {
+
+        }
 
         public MessageBuffer(byte code, string mess)
         {
@@ -60,7 +66,29 @@ namespace TakiFront
                 len -= read;
                 i += read;
             }
-            file.Close();
+            //file.Close();
+            StrMess = System.Text.Encoding.UTF8.GetString(Message, 0, Message.Length);
+        }
+
+        public MessageBuffer(byte[] data, NetworkStream file)
+        {
+            if (data.Length != 5) return;
+
+            Code = data[0];
+            Length = BitConverter.ToInt32(data, 1);
+
+            int len = Length;
+            byte[] Message = new byte[len];
+            int i = 0;
+            int read = 1;
+
+            while (len > 0 && read > 0)
+            {
+                read = file.Read(Message, i, len);
+                len -= read;
+                i += read;
+            }
+
             StrMess = System.Text.Encoding.UTF8.GetString(Message, 0, Message.Length);
         }
 
@@ -73,6 +101,32 @@ namespace TakiFront
             byteListSend.AddRange(Message);
 
             return byteListSend.ToArray();
+        }
+
+        public static MessageBuffer reciveData(NetworkStream stream)
+        {
+            byte[] reader = new byte[5];
+            try
+            {
+                int count = stream.Read(reader, 0, 5);
+                return new MessageBuffer(reader, stream);
+            }
+            catch
+            {
+                return new MessageBuffer();
+            }
+            
+        }
+
+        public static void sendData(byte[] n, NetworkStream stream)
+        {
+            stream.Write(n, 0, n.Length);
+        }
+
+        public static void sendData(JsonClass json, NetworkStream stream)
+        {
+            byte[] n = json.getAsRequest();
+            stream.Write(n, 0, n.Length);
         }
 
     }
