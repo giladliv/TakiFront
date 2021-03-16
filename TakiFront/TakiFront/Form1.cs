@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -45,6 +46,7 @@ namespace TakiFront
                     this.Hide();
                     game.ShowDialog();
                     this.Show();
+                    stream.Close();
                 }
                 catch (ArgumentNullException ex)
                 {

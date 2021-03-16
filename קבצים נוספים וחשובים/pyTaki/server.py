@@ -33,7 +33,7 @@ cardDic = {
 }
 
 calling = {
-    "called": True
+    "status": 1
 }
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

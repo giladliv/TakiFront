@@ -27,7 +27,6 @@ namespace TakiFront
             direction = d;
             index = i;
         }
-    
 
         public JsonClassSrvDrawCards(string json)
         {

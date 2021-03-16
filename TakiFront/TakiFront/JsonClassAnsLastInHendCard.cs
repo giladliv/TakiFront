@@ -11,11 +11,11 @@ namespace TakiFront
     public class JsonClassAnsLastInHendCard : JsonClass
     {
         protected override byte _id { get { return Global.CLN_SEND_PRESSED_LAST; } }
-        public bool called { get; set; }
+        public int status { get; set; }
 
         public JsonClassAnsLastInHendCard()
         {
-            called = true;
+            status = 1;
         }
 
         public JsonClassAnsLastInHendCard(string json)
@@ -25,7 +25,7 @@ namespace TakiFront
 
         public void copyOther(JsonClassAnsLastInHendCard other)
         {
-            this.called = other.called;
+            this.status = other.status;
         }
         public override string ToJsonFormat()
         {

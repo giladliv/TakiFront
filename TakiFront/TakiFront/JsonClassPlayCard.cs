@@ -29,19 +29,5 @@ namespace TakiFront
         {
             return JsonConvert.SerializeObject(this);
         }
-        //public byte[] getAsRequest()
-        //{
-
-
-        //    List<byte> byteListSend = new List<byte>() { Global.SRV_PLAYED_CARD_WELL };
-        //    byte[] jsonInBytes = Encoding.ASCII.GetBytes(ToJsonFormat());
-        //    byte[] buffer = BitConverter.GetBytes(jsonInBytes.Length);
-
-        //    byteListSend.AddRange(buffer);
-        //    byteListSend.AddRange(jsonInBytes);
-
-        //    return byteListSend.ToArray();
-
-        //}
     }
 }

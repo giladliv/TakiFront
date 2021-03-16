@@ -138,9 +138,10 @@ namespace TakiFront
                     MessageBuffer mbf = MessageBuffer.reciveData(_stream);
                     backgroundWorker1.ReportProgress(0, mbf);
                 }
-                catch (Exception)
+                catch (IOException ex)
                 {
-                    
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
                 }
             }
         }
@@ -149,9 +150,21 @@ namespace TakiFront
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //e.UserState.
             MessageBuffer mbf = (MessageBuffer)e.UserState;
             messageHandle(mbf);
+        }
+
+        private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.CancelAsync();
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -160,14 +173,7 @@ namespace TakiFront
             button1.Visible = false;
         }
 
-        private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-            if (backgroundWorker1.IsBusy)
-            {
-                backgroundWorker1.CancelAsync();
-            }
-        }
+        
 
         private void Button2_Click(object sender, EventArgs e)
         {
@@ -176,7 +182,7 @@ namespace TakiFront
             byte[] n = playCard.getAsRequest();
             //File.WriteAllBytes("mamamia.txt", playCard.getAsRequest());
             File.WriteAllBytes(FILE_CON, playCard.getAsRequest());
-            MessageBuffer.sendData(playCard, _stream);
+            sendDataJson(playCard);
 
         }
 
@@ -333,7 +339,7 @@ namespace TakiFront
             PictureBox temp = (PictureBox)sender;
             //MessageBox.Show("THIS IS GOOD " + temp.Tag, "This is nice..", MessageBoxButtons.OK, MessageBoxIcon.Information);
             JsonClassPlayCard playCard = new JsonClassPlayCard("" + temp.Tag);
-            MessageBuffer.sendData(playCard, _stream);
+            sendDataJson(playCard);
 
         }
 
@@ -358,15 +364,28 @@ namespace TakiFront
         {
             //need to handel a writer to stream
             JsonClassAnsLastInHendCard lastInHendCall = new JsonClassAnsLastInHendCard();
-            MessageBuffer.sendData(lastInHendCall, _stream);
+            sendDataJson(lastInHendCall);
         }
 
         private void drawEmpty(object sender, EventArgs e)
         {
             JsonClassPlayCard playCard = new JsonClassPlayCard("++");
-            MessageBuffer.sendData(playCard, _stream);
+            sendDataJson(playCard);
         }
 
+        private void sendDataJson(JsonClass jsonClass)
+        {
+            try
+            {
+                MessageBuffer.sendData(jsonClass, _stream);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+        }
+        
     }
 
     

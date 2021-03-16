@@ -12,11 +12,11 @@ namespace TakiFront
     {
         protected override byte _id { get { return Global.SRV_LAST_IN_HAND_FLAG; } }
 
-        public bool called { get; set; }
+        public int status { get; set; }
 
         public JsonClassServAskLastFlag()
         {
-            called = true;
+            status = 1;
         }
         public JsonClassServAskLastFlag(string json)
         {
@@ -25,7 +25,7 @@ namespace TakiFront
 
         public void copyOther(JsonClassServAskLastFlag other)
         {
-            this.called = other.called;
+            this.status = other.status;
         }
         public override string ToJsonFormat()
         {

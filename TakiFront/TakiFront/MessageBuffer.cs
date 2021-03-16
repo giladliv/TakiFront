@@ -106,16 +106,9 @@ namespace TakiFront
         public static MessageBuffer reciveData(NetworkStream stream)
         {
             byte[] reader = new byte[5];
-            try
-            {
-                int count = stream.Read(reader, 0, 5);
-                return new MessageBuffer(reader, stream);
-            }
-            catch
-            {
-                return new MessageBuffer();
-            }
-            
+            int count = stream.Read(reader, 0, 5);
+            return new MessageBuffer(reader, stream);
+
         }
 
         public static void sendData(byte[] n, NetworkStream stream)
