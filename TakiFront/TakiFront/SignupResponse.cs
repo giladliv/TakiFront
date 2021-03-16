@@ -10,7 +10,7 @@ namespace TakiFront
     public class SignupResponse : JsonClass
     {
         protected override byte _id { get { return Global.SIGN_UP_RESPONSE; } }
-        public int status { get; set; }
+        public uint status { get; set; }
 
         public SignupResponse()
         {
