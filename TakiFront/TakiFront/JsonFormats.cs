@@ -17,6 +17,7 @@ namespace TakiFront
 {
     public class Global
     {
+        public const byte ERROR_RESPONSE = 0x07;
         public const byte LOGIN_REQUEST = 0x10;
         public const byte SIGN_UP_REQUEST = 0x11;
         public const byte LOGIN_RESPONSE = 0x12;

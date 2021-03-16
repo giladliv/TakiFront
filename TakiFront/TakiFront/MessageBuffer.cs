@@ -122,5 +122,13 @@ namespace TakiFront
             stream.Write(n, 0, n.Length);
         }
 
+        public static T GetObject<T>(params object[] args)
+        {
+            return (T)Activator.CreateInstance(typeof(T), args);
+        }
+        public T GetObject<T>()
+        {
+            return (T)Activator.CreateInstance(typeof(T), StrMess);
+        }
     }
 }

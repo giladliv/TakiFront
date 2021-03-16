@@ -157,6 +157,7 @@ namespace TakiFront
         private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.Close();
+            throw new Exception();
         }
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
@@ -196,6 +197,9 @@ namespace TakiFront
 
                 case Global.SRV_DRAW_CARDS:
                     handleCardsRecived(buffer.StrMess);
+                    JsonClassSrvDrawCards s = buffer.GetObject<JsonClassSrvDrawCards>();
+                    string ness = String.Join(", ", s.cardsDeck);
+                    MessageBox.Show(ness);
                     break;
 
                 case Global.SRV_LAST_IN_HAND_FLAG:
