@@ -49,6 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameMenu.Designer.cs">
+      <DependentUpon>GameMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RequestSecVerJson.cs" />
     <Compile Include="ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +100,7 @@
     <Compile Include="PlayersDataList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseSecVerJson.cs" />
     <Compile Include="SignupRequest.cs" />
     <Compile Include="SignupResponse.cs" />
     <Compile Include="SignUpWindow.cs">
@@ -106,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameMenu.resx">
+      <DependentUpon>GameMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameTable.resx">
       <DependentUpon>GameTable.cs</DependentUpon>

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace TakiFront
 {
-    class JsonClassServAskLastFlag : JsonClass
+    public class JsonClassServAskLastFlag : JsonClass
     {
         protected override byte _id { get { return Global.SRV_LAST_IN_HAND_FLAG; } }
 

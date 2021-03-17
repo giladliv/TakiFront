@@ -18,11 +18,31 @@ namespace TakiFront
     public class Global
     {
         public const byte ERROR_RESPONSE = 0x07;
+
+        //1.0.0
+
         public const byte LOGIN_REQUEST = 0x10;
         public const byte SIGN_UP_REQUEST = 0x11;
+
         public const byte LOGIN_RESPONSE = 0x12;
         public const byte SIGN_UP_RESPONSE = 0x13;
 
+
+        //2.0.0
+        public const byte PLAYERS_ROOM_REQUEST = 0x20;
+        public const byte JOIN_ROOM_REQUEST = 0x21;
+        public const byte CREATE_ROOM_REQUEST = 0x22;
+
+        public const byte LOGOUT_RESPONSE = 0x23;
+        public const byte GET_ROOM_RESPONSE = 0x24;
+        public const byte PLAYERS_ROOM_RESPONSE = 0x25;
+        public const byte HIGH_SCORE_RESPONSE = 0x26;
+        public const byte PERSONAL_STATS_RESPONSE = 0x27;
+        public const byte JOIN_ROOM_RESPONSE = 0x28;
+        public const byte CREATE_ROOM_RESPONSE = 0x29;
+
+
+        //4.0.0
         public const byte SRV_START_GAME = 0x40;
         public const byte CLN_PLAY_CARD = 0x41;
         public const byte SRV_PLAYED_CARD_WELL = 0x42;
@@ -55,6 +75,19 @@ namespace TakiFront
             byteListSend.AddRange(jsonInBytes);
 
             return byteListSend.ToArray();
+        }
+    }
+
+    public class RoomData
+    {
+        public uint id { get; set; }
+        public string name { get; set; }
+        public uint maxPlayers { get; set; }
+        public uint isActive { get; set; }
+
+        public RoomData()
+        {
+
         }
     }
 
