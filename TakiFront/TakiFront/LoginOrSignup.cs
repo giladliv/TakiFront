@@ -8,16 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.IO;
 
 namespace TakiFront
 {
     public partial class LoginOrSignup : Form
     {
         private NetworkStream _stream;
-        public LoginOrSignup()
+        public LoginOrSignup(NetworkStream stream)
         {
             InitializeComponent();
-            _stream = Form1.Connect("127.0.0.1", 33666);
+            _stream = stream;
+            
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -34,7 +36,7 @@ namespace TakiFront
                     starter.ShowDialog();
                 }
             }
-            catch
+            catch (IOException ex)
             {
                 MessageBox.Show("mama mia!!");
             }
@@ -64,7 +66,7 @@ namespace TakiFront
             this.Show();
         }
 
-        private void LoginOrSignup_Load(object sender, EventArgs e)
+        private void LoginOrSignup_FormClosing(object sender, FormClosingEventArgs e)
         {
             _stream.Close();
         }

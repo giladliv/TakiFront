@@ -19,6 +19,7 @@ namespace TakiFront
     public partial class GameTable : Form
     {
         private int _numOfPlayers;
+        private bool _isWork;
         private List<string> _cards;
         private int _direction;
         private List<Control>[] _controls;
@@ -28,13 +29,16 @@ namespace TakiFront
         private int playerIndex;
         private PlayersDataList dataStart;
         private NetworkStream _stream;
+        private Exception _exception;
 
         public GameTable(JsonClassStartGame startGame, NetworkStream stream)
         {
             InitializeComponent();
             _stream = stream;
+            _isWork = true;
             dataStart = new PlayersDataList(startGame);
             _direction = 1;
+            centerCardBox.Image = getCardImgByString(startGame.centralCard);
             _cards = startGame.cardsDeck;
             refreshDeck();
             _controls = new List<Control>[LEN_CONT] { new List<Control>() { label1, pictureBox1 },
@@ -130,7 +134,7 @@ namespace TakiFront
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            while (_isWork)
             {
                 try
                 {
@@ -140,7 +144,7 @@ namespace TakiFront
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _exception = ex;
                     break;
                 }
             }
@@ -156,16 +160,16 @@ namespace TakiFront
 
         private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Close();
-            throw new Exception();
+            if (_isWork)
+            {
+                throw _exception;
+            }
+            
         }
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (backgroundWorker1.IsBusy)
-            {
-                backgroundWorker1.CancelAsync();
-            }
+            _isWork = false;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -186,7 +190,7 @@ namespace TakiFront
             sendDataJson(playCard);
 
         }
-
+        private int testo = 0;
         private void messageHandle(MessageBuffer buffer)
         {
             switch (buffer.Code)
@@ -210,6 +214,11 @@ namespace TakiFront
                     //MessageBox.Show("boom", "oops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
+                case Global.ERROR_RESPONSE:
+                    ErrorResponse err = buffer.GetObject<ErrorResponse>();
+                    MessageBox.Show(err.message);
+                    break;
+
                 default:
                     break;
             }
@@ -224,7 +233,8 @@ namespace TakiFront
         {
             JsonClassLeagelCardResponse cardResponse = new JsonClassLeagelCardResponse(json);
             richTextBox1.Text = cardResponse.card;
-            if(dataStart.currGameIndex == dataStart.thisPlyIndex)
+            centerCardBox.Image = getCardImgByString(cardResponse.card);
+            if (dataStart.currGameIndex == dataStart.thisPlyIndex)
             {
                 //remove card option
                 removeCardFromDeck(cardResponse.card);
@@ -244,7 +254,7 @@ namespace TakiFront
         private void handleCardsRecived(string json)
         {
             JsonClassSrvDrawCards drawCards = new JsonClassSrvDrawCards(json);
-            //richTextBox1.Text = cardResponse.card;
+            
             button3.Visible = false;
             drawCards.addCardsToHend(ref _cards);
             setVisualCurrentPlayer(drawCards.index, drawCards.direction);
@@ -314,9 +324,9 @@ namespace TakiFront
             foreach (string card in cardList)
             {
                 PictureBox temp = new PictureBox();
-                ResourceManager rm = Properties.Resources.ResourceManager;
+                
 
-                temp.Image = (Bitmap)rm.GetObject(card);
+                temp.Image = getCardImgByString(card);
                 if (temp.Image != null)
                 {
                     temp.Tag = card;
@@ -332,6 +342,15 @@ namespace TakiFront
             return (picRet);
         }
 
+        public Image getCardImgByString(string card)
+        {
+            ResourceManager rm = Properties.Resources.ResourceManager;
+
+            card = card.Replace("-------", "");
+
+            return ((Bitmap)rm.GetObject(card));
+        }
+
         private void CardClick(object sender, EventArgs e)
         {
             if (dataStart.currGameIndex != dataStart.thisPlyIndex)
@@ -339,7 +358,7 @@ namespace TakiFront
                 MessageBox.Show("not your turn", "oops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            
             PictureBox temp = (PictureBox)sender;
             //MessageBox.Show("THIS IS GOOD " + temp.Tag, "This is nice..", MessageBoxButtons.OK, MessageBoxIcon.Information);
             JsonClassPlayCard playCard = new JsonClassPlayCard("" + temp.Tag);
@@ -388,6 +407,17 @@ namespace TakiFront
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
             }
+        }
+
+        private void Pause()
+        {
+            _isWork = false;
+        }
+
+        private void Resume()
+        {
+            _isWork = true;
+            backgroundWorker1.RunWorkerAsync();
         }
         
     }

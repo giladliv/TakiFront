@@ -45,16 +45,18 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.centerCardBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.centerCardBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(905, 433);
+            this.label1.Location = new System.Drawing.Point(905, 467);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 17);
             this.label1.TabIndex = 0;
@@ -99,7 +101,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(778, 509);
+            this.textBox1.Location = new System.Drawing.Point(778, 543);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(297, 22);
             this.textBox1.TabIndex = 5;
@@ -114,11 +116,12 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(805, 161);
+            this.richTextBox1.Location = new System.Drawing.Point(177, 237);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(242, 208);
             this.richTextBox1.TabIndex = 6;
             this.richTextBox1.Text = "";
+            this.richTextBox1.Visible = false;
             // 
             // richTextBox2
             // 
@@ -167,7 +170,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Location = new System.Drawing.Point(826, 382);
+            this.pictureBox1.Location = new System.Drawing.Point(826, 416);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(204, 115);
             this.pictureBox1.TabIndex = 11;
@@ -210,11 +213,21 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.drawEmpty);
             // 
+            // centerCardBox
+            // 
+            this.centerCardBox.Location = new System.Drawing.Point(823, 168);
+            this.centerCardBox.Name = "centerCardBox";
+            this.centerCardBox.Size = new System.Drawing.Size(210, 228);
+            this.centerCardBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.centerCardBox.TabIndex = 16;
+            this.centerCardBox.TabStop = false;
+            // 
             // GameTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1853, 1050);
+            this.Controls.Add(this.centerCardBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.button3);
@@ -239,6 +252,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.centerCardBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,5 +277,6 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.PictureBox centerCardBox;
     }
 }

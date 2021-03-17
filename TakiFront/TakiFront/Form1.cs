@@ -52,30 +52,11 @@ namespace TakiFront
             JsonClassStartGame startGame = new JsonClassStartGame(t1, ints.ToList(), t3, "3y");
             if (t1.Count >= 1 && t1.Count <= 3)
             {
-                try
-                {
-                    _stream = Connect("127.0.01", 33666);
-                    GameTable game = new GameTable(startGame, _stream);
-                    this.Hide();
-                    game.ShowDialog();
-                    this.Show();
-                }
-                catch (ArgumentNullException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (SocketException ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    MessageBox.Show("boo!!");
-                }
-                //GameTable game = new GameTable(startGame, _stream);
-                //this.Hide();
-                //game.ShowDialog();
-                //this.Show();
+                //_stream = Connect("127.0.01", 33666);
+                GameTable game = new GameTable(startGame, _stream);
+                this.Hide();
+                game.ShowDialog();
+                this.Show();
             }
         }
     }

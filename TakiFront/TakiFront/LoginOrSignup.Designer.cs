@@ -63,7 +63,7 @@
             this.Controls.Add(this.button1);
             this.Name = "LoginOrSignup";
             this.Text = "LoginOrSignup";
-            this.Load += new System.EventHandler(this.LoginOrSignup_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginOrSignup_FormClosing);
             this.ResumeLayout(false);
 
         }

@@ -1,5 +1,6 @@
 import json
 import socket
+import time
 
 HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 PORT = 33666  # Port to listen on (non-privileged ports are > 1023)
@@ -26,8 +27,8 @@ def recv(sock):
     return retArr
 
 
-cardDic = {
-    "cardsDeck": ["7y", "TT"],
+card = {
+    "card": "ty",
     "direction": 1,
     "index": 1
 }
@@ -44,11 +45,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print('Connected by', addr)
         while True:
             # data = conn.recv(1024)
-            send(conn, 0x44, calling)
+            #send(conn, 0x44, calling)
             data = recv(conn)
-            print(data[0], "\t==>\t", data[1])
+            #print(data[0], "\t==>\t", data[1])
             #yo = json.loads(data[1])
             #print(yo["index"])
             # send(conn, data)
-            if data[0] == b'E':
-                send(conn, 0x43, cardDic)
+            #if data[0] == b'E':
+            #    send(conn, 0x43, cardDic)
+            if data[0] == b'\x10':
+                send(conn, 0x12, calling)
+            if data[0] == b'\x11':
+                send(conn, 0x13, calling)
+
+
