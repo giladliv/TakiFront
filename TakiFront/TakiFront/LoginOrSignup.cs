@@ -32,8 +32,11 @@ namespace TakiFront
                 loginWin.ShowDialog();
                 if (loginWin.isOk)
                 {
-                    Form1 starter = new Form1(loginWin.login.username, _stream);
-                    starter.ShowDialog();
+
+                    GameMenu gameMenu = new GameMenu(_stream);
+                    gameMenu.ShowDialog();
+                    //Form1 starter = new Form1(loginWin.login.username, _stream);
+                    //starter.ShowDialog();
                 }
             }
             catch (IOException ex)
@@ -54,8 +57,11 @@ namespace TakiFront
                 signUpWin.ShowDialog();
                 if (signUpWin.isOk)
                 {
-                    Form1 starter = new Form1(signUpWin.signup.username, _stream);
-                    starter.ShowDialog();
+
+                    GameMenu gameMenu = new GameMenu(_stream);
+                    gameMenu.ShowDialog();
+                    //Form1 starter = new Form1(signUpWin.signup.username, _stream);
+                    //starter.ShowDialog();
                 }
             }
             catch

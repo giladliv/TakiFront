@@ -23,18 +23,48 @@ def recv(sock):
     message = ""
     while len(message) < length:
         message += (sock.recv(length)).decode("ASCII")
+    message = json.loads(message)
     retArr = [id, message]
     return retArr
 
 
 card = {
-    "card": "ty",
+    "card": "4g",
     "direction": 1,
     "index": 1
 }
 
 calling = {
     "status": 1
+}
+
+err = {
+    "message": "bla bla"
+}
+
+roomsData = {
+    "status": 2,
+    "rooms": [
+        {
+            "id": 1,
+            "name": "meme",
+            "maxPlayers": 4,
+            "isActive": 0
+        },
+        {
+            "id": 1,
+            "name": "lama",
+            "maxPlayers": 2,
+            "isActive": 1
+        }
+    ]
+}
+
+startGame = {
+    "player_names": ["gilad", " tomer", " ariel"],
+    "turns": [3, 1, 2],
+    "cardsDeck": ["3b", "4g"],
+    "centralCard": "3y"
 }
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -45,17 +75,24 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print('Connected by', addr)
         while True:
             # data = conn.recv(1024)
-            #send(conn, 0x44, calling)
+            # send(conn, 0x44, calling)
             data = recv(conn)
-            #print(data[0], "\t==>\t", data[1])
-            #yo = json.loads(data[1])
-            #print(yo["index"])
+            # print(data[0], "\t==>\t", data[1])
+            # yo = json.loads(data[1])
+            # print(yo["index"])
             # send(conn, data)
-            #if data[0] == b'E':
+            # if data[0] == b'E':
             #    send(conn, 0x43, cardDic)
             if data[0] == b'\x10':
                 send(conn, 0x12, calling)
-            if data[0] == b'\x11':
+            elif data[0] == b'\x11':
                 send(conn, 0x13, calling)
-
-
+            elif data[0] == b'\x24':
+                send(conn, 0x24, roomsData)
+            elif data[0] == b'\x21':
+                print("room id: ", data[1]['roomId'])
+                send(conn, 0x28, roomsData)
+                time.sleep(3)
+                send(conn, 0x40, startGame)
+            elif data[0] == b'\x41':
+                send(conn, 0x42, card)

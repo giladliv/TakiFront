@@ -31,7 +31,7 @@ namespace TakiFront
             textBox1.Text = "gilad, tomer, ariel";
             int[] ints = { 3, 1, 0 };
             textBox2.Text = String.Join(", ", ints);
-            //_stream = stream;
+            _stream = stream;
             label1.Text = name;
         }
 
@@ -53,7 +53,7 @@ namespace TakiFront
             if (t1.Count >= 1 && t1.Count <= 3)
             {
                 //_stream = Connect("127.0.01", 33666);
-                GameTable game = new GameTable(startGame, _stream);
+                GameTable game = new GameTable(startGame, false, _stream);
                 this.Hide();
                 game.ShowDialog();
                 this.Show();

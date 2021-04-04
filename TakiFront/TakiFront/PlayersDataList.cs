@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TakiFront
 {
-    class PlayersDataList
+    public class PlayersDataList
     {
-        public List<string> names { get; }
-        public int thisPlyIndex { get; }
+        public List<string> names { get; set; }
+        public int thisPlyIndex { get; set; }
         public int currGameIndex { get; set; }
 
         private JsonClassStartGame _startGame;

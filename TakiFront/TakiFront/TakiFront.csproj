@@ -49,11 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorSelect.Designer.cs">
+      <DependentUpon>ColorSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EndGameResponse.cs" />
     <Compile Include="GameMenu.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameMenu.Designer.cs">
       <DependentUpon>GameMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JoinCreateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JoinCreateForm.Designer.cs">
+      <DependentUpon>JoinCreateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RequestSecVerJson.cs" />
     <Compile Include="ConnectForm.cs">
@@ -101,6 +114,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseSecVerJson.cs" />
+    <Compile Include="ResponseThirdVerJson.cs" />
     <Compile Include="SignupRequest.cs" />
     <Compile Include="SignupResponse.cs" />
     <Compile Include="SignUpWindow.cs">
@@ -109,6 +123,9 @@
     <Compile Include="SignUpWindow.Designer.cs">
       <DependentUpon>SignUpWindow.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ColorSelect.resx">
+      <DependentUpon>ColorSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GameTable.resx">
       <DependentUpon>GameTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JoinCreateForm.resx">
+      <DependentUpon>JoinCreateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginOrSignup.resx">
       <DependentUpon>LoginOrSignup.cs</DependentUpon>
@@ -251,9 +271,6 @@
     <None Include="Resources\tb.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\tg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\tr.png" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +308,84 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dl1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dl-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dr1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dr-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\+9.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\!2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\^6.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\!r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\!y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\!b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\!g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\^g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\^r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\^y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\^b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\+b.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\+g.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\+r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\+y.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\the.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

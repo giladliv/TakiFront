@@ -30,13 +30,18 @@ namespace TakiFront
         private PlayersDataList dataStart;
         private NetworkStream _stream;
         private Exception _exception;
+        private ResourceManager rsrcMng;
 
-        public GameTable(JsonClassStartGame startGame, NetworkStream stream)
+
+        public GameTable(JsonClassStartGame startGame, bool isAdmin, NetworkStream stream)
         {
             InitializeComponent();
+
             _stream = stream;
             _isWork = true;
             dataStart = new PlayersDataList(startGame);
+            rsrcMng = Properties.Resources.ResourceManager;
+
             _direction = 1;
             centerCardBox.Image = getCardImgByString(startGame.centralCard);
             _cards = startGame.cardsDeck;
@@ -50,8 +55,14 @@ namespace TakiFront
                                                new List<Control>() { label2, pictureBox2 },
                                                new List<Control>() { label3, pictureBox3 },
                                                new List<Control>() { label4, pictureBox4 } };
+
+
             setPlayers();
+            CloseButton.Visible = isAdmin;
+            LeaveButton.Visible = !isAdmin;
+            setDirctionBox(_direction);
             backgroundWorker1.RunWorkerAsync();
+
             //File.WriteAllText("try.txt", "");
 
         }
@@ -142,6 +153,10 @@ namespace TakiFront
                     MessageBuffer mbf = MessageBuffer.reciveData(_stream);
                     backgroundWorker1.ReportProgress(0, mbf);
                 }
+                catch (ArgumentNullException ex)
+                {
+                    MessageBox.Show("OMG");
+                }
                 catch (IOException ex)
                 {
                     _exception = ex;
@@ -169,7 +184,7 @@ namespace TakiFront
 
         private void GameTable_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _isWork = false;
+            Pause();
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -212,6 +227,18 @@ namespace TakiFront
 
                 case Global.CLN_PLAY_CARD:
                     //MessageBox.Show("boom", "oops..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                case Global.LEAVE_GAME_RESPONSE:
+                    handleLeaveGame(buffer.StrMess);
+                    break;
+
+                case Global.CLOSE_ROOM_RESPONSE:
+                    this.Close();
+                    break;
+
+                case Global.END_GAME:
+                    handleEndGame(buffer.StrMess);
                     break;
 
                 case Global.ERROR_RESPONSE:
@@ -274,6 +301,35 @@ namespace TakiFront
             button3.Visible = true;
         }
 
+        private void handleLeaveGame(string json)
+        {
+            LeaveRoomResponse leaveResponse = new LeaveRoomResponse(json);
+            if (leaveResponse.indexLeave == dataStart.thisPlyIndex)
+            {
+                Close();
+            }
+            else
+            {
+                leaveResponse.updateDataPlayers(ref dataStart);
+                setPlayers();
+            }
+
+
+        }
+
+        private void handleEndGame(string json)
+        {
+            EndGameResponse endGame = new EndGameResponse(json);
+            if (endGame.index == dataStart.thisPlyIndex)
+            {
+                MessageBox.Show("Congratulations!! you are the winner!!", "WINNER!!");
+            }
+            else
+            {
+                MessageBox.Show("the player: \"" + endGame.name + "\" has won the game" , "End Game");
+            }
+            Close();
+        }
 
         /*
          *check if the index and direction have changed, if so, it will be showed 
@@ -291,9 +347,18 @@ namespace TakiFront
             if (direction != _direction)
             {
                 _direction = direction;
+                setDirctionBox(_direction);
             }
         }
 
+        private void setDirctionBox(int dir)
+        {
+            string right = "dr" + dir;
+            string left = "dl" + dir;
+
+            directionRightPic.Image = (Bitmap)rsrcMng.GetObject(right);
+            directionLeftPic.Image = (Bitmap)rsrcMng.GetObject(left);
+        }
 
         private void refreshDeck()
         {
@@ -344,11 +409,9 @@ namespace TakiFront
 
         public Image getCardImgByString(string card)
         {
-            ResourceManager rm = Properties.Resources.ResourceManager;
+            string cardSource = card.Replace("=", "c").Replace("$", "p");
 
-            card = card.Replace("-------", "");
-
-            return ((Bitmap)rm.GetObject(card));
+            return ((Bitmap)rsrcMng.GetObject(cardSource));
         }
 
         private void CardClick(object sender, EventArgs e)
@@ -361,8 +424,26 @@ namespace TakiFront
             
             PictureBox temp = (PictureBox)sender;
             //MessageBox.Show("THIS IS GOOD " + temp.Tag, "This is nice..", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            JsonClassPlayCard playCard = new JsonClassPlayCard("" + temp.Tag);
-            sendDataJson(playCard);
+            string card = "" + temp.Tag;
+
+            if (card == "==")
+            {
+                ColorSelect colorSelect = new ColorSelect();
+
+                Pause(true);
+                colorSelect.ShowDialog();
+                Resume(true);
+
+                string ans = colorSelect.getColor();
+                card = (ans == "") ? "" : ("=" + ans);
+            }
+
+            if (card != "")
+            {
+                JsonClassPlayCard playCard = new JsonClassPlayCard(card);
+                sendDataJson(playCard);
+            }
+            
 
         }
 
@@ -409,17 +490,43 @@ namespace TakiFront
             }
         }
 
-        private void Pause()
+        private void Pause(bool toHide = false)
         {
+            if (toHide)
+            {
+                this.Hide();
+            }
+
             _isWork = false;
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.CancelAsync();
+            }
+
         }
 
-        private void Resume()
+        private void Resume(bool toShow = false)
         {
             _isWork = true;
             backgroundWorker1.RunWorkerAsync();
+
+            if(toShow)
+            {
+                this.Show();
+            }
         }
-        
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            GenricJson genricJson = new GenricJson(Global.CLOSE_ROOM_REQUEST);
+            sendDataJson(genricJson);
+        }
+
+        private void LeaveButton_Click(object sender, EventArgs e)
+        {
+            GenricJson genricJson = new GenricJson(Global.LEAVE_GAME_REQUEST);
+            sendDataJson(genricJson);
+        }
     }
 
     

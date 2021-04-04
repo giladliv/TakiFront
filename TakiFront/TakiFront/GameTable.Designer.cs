@@ -46,17 +46,23 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.button4 = new System.Windows.Forms.Button();
             this.centerCardBox = new System.Windows.Forms.PictureBox();
+            this.CloseButton = new System.Windows.Forms.Button();
+            this.LeaveButton = new System.Windows.Forms.Button();
+            this.directionRightPic = new System.Windows.Forms.PictureBox();
+            this.directionLeftPic = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.centerCardBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.directionRightPic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.directionLeftPic)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(905, 467);
+            this.label1.Location = new System.Drawing.Point(905, 502);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 17);
             this.label1.TabIndex = 0;
@@ -65,7 +71,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(559, 240);
+            this.label2.Location = new System.Drawing.Point(495, 288);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 1;
@@ -83,7 +89,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1260, 240);
+            this.label4.Location = new System.Drawing.Point(1318, 288);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(46, 17);
             this.label4.TabIndex = 3;
@@ -91,7 +97,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(852, 598);
+            this.button1.Location = new System.Drawing.Point(844, 664);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(161, 68);
             this.button1.TabIndex = 4;
@@ -101,7 +107,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(778, 543);
+            this.textBox1.Location = new System.Drawing.Point(778, 578);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(297, 22);
             this.textBox1.TabIndex = 5;
@@ -116,7 +122,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(177, 237);
+            this.richTextBox1.Location = new System.Drawing.Point(42, 237);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(242, 208);
             this.richTextBox1.TabIndex = 6;
@@ -125,7 +131,7 @@
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(1614, 579);
+            this.richTextBox2.Location = new System.Drawing.Point(1606, 645);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.richTextBox2.Size = new System.Drawing.Size(192, 121);
@@ -134,7 +140,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1633, 706);
+            this.button2.Location = new System.Drawing.Point(1625, 772);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(161, 68);
             this.button2.TabIndex = 8;
@@ -144,7 +150,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(300, 598);
+            this.button3.Location = new System.Drawing.Point(292, 664);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(161, 68);
             this.button3.TabIndex = 9;
@@ -159,7 +165,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(300, 672);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(292, 738);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tableLayoutPanel1.RowCount = 1;
@@ -170,7 +176,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Location = new System.Drawing.Point(826, 416);
+            this.pictureBox1.Location = new System.Drawing.Point(826, 451);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(204, 115);
             this.pictureBox1.TabIndex = 11;
@@ -179,7 +185,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox2.Location = new System.Drawing.Point(480, 192);
+            this.pictureBox2.Location = new System.Drawing.Point(416, 240);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(204, 115);
             this.pictureBox2.TabIndex = 12;
@@ -197,7 +203,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox4.Location = new System.Drawing.Point(1182, 192);
+            this.pictureBox4.Location = new System.Drawing.Point(1240, 240);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(204, 115);
             this.pictureBox4.TabIndex = 14;
@@ -205,7 +211,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(1430, 257);
+            this.button4.Location = new System.Drawing.Point(1594, 244);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(237, 240);
             this.button4.TabIndex = 15;
@@ -215,18 +221,62 @@
             // 
             // centerCardBox
             // 
-            this.centerCardBox.Location = new System.Drawing.Point(823, 168);
+            this.centerCardBox.Location = new System.Drawing.Point(826, 192);
             this.centerCardBox.Name = "centerCardBox";
             this.centerCardBox.Size = new System.Drawing.Size(210, 228);
             this.centerCardBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.centerCardBox.TabIndex = 16;
             this.centerCardBox.TabStop = false;
             // 
+            // CloseButton
+            // 
+            this.CloseButton.Location = new System.Drawing.Point(12, 12);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(161, 70);
+            this.CloseButton.TabIndex = 17;
+            this.CloseButton.Text = "CLOSE ROOM";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Visible = false;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            // 
+            // LeaveButton
+            // 
+            this.LeaveButton.Location = new System.Drawing.Point(12, 29);
+            this.LeaveButton.Name = "LeaveButton";
+            this.LeaveButton.Size = new System.Drawing.Size(161, 70);
+            this.LeaveButton.TabIndex = 18;
+            this.LeaveButton.Text = "LEAVE ROOM";
+            this.LeaveButton.UseVisualStyleBackColor = true;
+            this.LeaveButton.Visible = false;
+            this.LeaveButton.Click += new System.EventHandler(this.LeaveButton_Click);
+            // 
+            // directionRightPic
+            // 
+            this.directionRightPic.Location = new System.Drawing.Point(1077, 207);
+            this.directionRightPic.Name = "directionRightPic";
+            this.directionRightPic.Size = new System.Drawing.Size(87, 197);
+            this.directionRightPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.directionRightPic.TabIndex = 19;
+            this.directionRightPic.TabStop = false;
+            // 
+            // directionLeftPic
+            // 
+            this.directionLeftPic.Location = new System.Drawing.Point(697, 207);
+            this.directionLeftPic.Name = "directionLeftPic";
+            this.directionLeftPic.Size = new System.Drawing.Size(87, 197);
+            this.directionLeftPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.directionLeftPic.TabIndex = 20;
+            this.directionLeftPic.TabStop = false;
+            // 
             // GameTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1853, 1050);
+            this.ClientSize = new System.Drawing.Size(1890, 1055);
+            this.Controls.Add(this.directionLeftPic);
+            this.Controls.Add(this.directionRightPic);
+            this.Controls.Add(this.LeaveButton);
+            this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.centerCardBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -253,6 +303,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.centerCardBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.directionRightPic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.directionLeftPic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,5 +330,9 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.PictureBox centerCardBox;
+        private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.Button LeaveButton;
+        private System.Windows.Forms.PictureBox directionRightPic;
+        private System.Windows.Forms.PictureBox directionLeftPic;
     }
 }

@@ -42,6 +42,15 @@ namespace TakiFront
         public const byte CREATE_ROOM_RESPONSE = 0x29;
 
 
+        //3.0.0
+        public const byte CLOSE_ROOM_REQUEST = 0x30;
+        public const byte START_GAME_REQUEST = 0x31;
+        public const byte LEAVE_GAME_REQUEST = 0x32;
+        public const byte CLOSE_ROOM_RESPONSE = 0x33;
+        public const byte START_GAME_RESPONSE = 0x34;
+        public const byte LEAVE_GAME_RESPONSE = 0x35;
+        public const byte END_GAME = 0x36;
+
         //4.0.0
         public const byte SRV_START_GAME = 0x40;
         public const byte CLN_PLAY_CARD = 0x41;
@@ -78,6 +87,38 @@ namespace TakiFront
         }
     }
 
+    public class GenricJson : JsonClass
+    {
+        protected override byte _id { get; }
+
+        public uint status { get; set; }
+
+        public GenricJson(byte id)
+        {
+            status = 0;
+            _id = id;
+        }
+
+        public GenricJson(uint id)
+        {
+            status = id;
+        }
+
+        public GenricJson(GenricJson other) : this(other.status)
+        {
+        }
+
+        public GenricJson(string json) : this(JsonConvert.DeserializeObject<GenricJson>(json))
+        {
+
+        }
+
+        public override string ToJsonFormat()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+
     public class RoomData
     {
         public uint id { get; set; }
@@ -88,6 +129,14 @@ namespace TakiFront
         public RoomData()
         {
 
+        }
+
+        public RoomData(uint idO, string nameO, uint max, uint active)
+        {
+            id = idO;
+            name = nameO;
+            maxPlayers = max;
+            isActive = active;
         }
     }
 
