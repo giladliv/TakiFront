@@ -32,6 +32,7 @@ namespace TakiFront
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             AddLog((Exception)e.ExceptionObject);
+
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

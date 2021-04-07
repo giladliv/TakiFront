@@ -269,6 +269,7 @@ namespace TakiFront
                 {
                     button1.Visible = true;
                 }
+                refreshDeck();
             }
             setVisualCurrentPlayer(cardResponse.index, cardResponse.direction);
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TakiFront
 {
@@ -31,6 +32,12 @@ namespace TakiFront
         public override string ToJsonFormat()
         {
             return JsonConvert.SerializeObject(this);
+        }
+
+        public void Show()
+        {
+            //ErrorResponse err = buffer.GetObject<ErrorResponse>();
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
