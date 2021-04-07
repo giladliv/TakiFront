@@ -95,4 +95,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 time.sleep(3)
                 send(conn, 0x40, startGame)
             elif data[0] == b'\x41':
+                card["card"] = data[1]["card"]
+                card["direction"] = -1
                 send(conn, 0x42, card)

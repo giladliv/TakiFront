@@ -107,7 +107,13 @@ namespace TakiFront
         {
             byte[] reader = new byte[5];
             int count = stream.Read(reader, 0, 5);
-            return new MessageBuffer(reader, stream);
+            MessageBuffer mbf = new MessageBuffer(reader, stream);
+            if (mbf.Code == Global.ERROR_RESPONSE)
+            {
+                ErrorResponse err = mbf.GetObject<ErrorResponse>();
+                err.Show();
+            }
+            return mbf;
 
         }
 

@@ -49,5 +49,18 @@ namespace TakiFront
                 this.Show();
             }
         }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            GenricJson logutRequest = new GenricJson(Global.LOGOUT_RESPONSE);
+            MessageBuffer.sendData(logutRequest, _stream);
+
+            MessageBuffer mbf = MessageBuffer.reciveData(_stream);
+            if (mbf.Code == Global.LOGOUT_RESPONSE)
+            {
+                this.Close();
+            }
+
+        }
     }
 }

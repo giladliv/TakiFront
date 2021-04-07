@@ -9,6 +9,10 @@ namespace TakiFront
 {
     static class Program
     {
+        public static Dictionary<int, Form> formsMap = new Dictionary<int, Form>();
+        public static int formsCounter = 1;
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -28,12 +32,14 @@ namespace TakiFront
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             AddLog((Exception)e.ExceptionObject);
+
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             //AddLog(e.Exception);
             MessageBox.Show(e.Exception.Message);
+            Application.Restart();
         }
 
         static void AddLog(Exception exception)
@@ -48,6 +54,22 @@ namespace TakiFront
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+            }
+        }
+
+        public static void addFormToMap(int index, Form form)
+        {
+            
+            formsMap[index] = form;
+        }
+
+
+        public static void formCloseMap()
+        {
+            while(formsMap.Keys.Count > 0)
+            {
+                formsMap.Keys.ElementAt(formsMap.Keys.Count - 1);
+                
             }
         }
     }
